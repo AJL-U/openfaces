@@ -1,0 +1,37 @@
+<div  ng-controller="originController as originCtrl">
+<h3>Filter {{originCtrl.setName}} Subjects</h3>
+
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}">All</a>
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}/origin/asian">Asian</a>
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}/origin/black">Black</a>
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}/origin/hispanic">Hispanic</a>
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}/origin/white">White</a>
+<a class="btn" href="/#!/sets/{{originCtrl.setName}}/origin/unlisted">Uncategorized</a>
+
+<hr/>
+
+
+<table class="table">
+  <thead>
+    
+    <th>Name</th>
+    <th>Gender</th>
+    <th>Age</th>
+    <th class="highlightHeader">Origin</th>
+    <th>Image</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="subject in originCtrl.subjects">
+      
+      <td>{{subject.name}}</td>
+      <td>{{subject.gender}}</td>
+      <td>{{subject.age}}</td>
+      <td class="highlight">{{subject.origin}}</td>
+      <th><img src="http://code4rights.com/subjects/lfw_subjects/{{subject.filename}}" width="100px" /></th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+

@@ -1,0 +1,24 @@
+<h2><a href="/">Sets</a></h2>
+
+<ul ng-controller="setsController as setsCtrl">
+      <li ng-repeat = "set in setsCtrl.sets">
+      <a href="/#!/sets/{{set}}"> {{set}} </a>
+      </li>
+ </ul>
+
+
+
+ <div ui-view>
+
+ </div>
+
+
+
+
+
+
+
+
+<!--Create New Set Option
+<span><em> <a href="/#!/new-set"> + set</a> </em></span>
+-->

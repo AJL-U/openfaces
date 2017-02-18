@@ -1,0 +1,24 @@
+<form class="form" name="newMedalForm" ng-submit="newMedalCtrl.saveMedal(medal)"/>
+
+  <h3 class="mbm">New Medal for {{newMedalCtrl.sportName}}</h3>
+
+  <div class="form-field">
+    <label class="form-label" for="name">Name:</label>
+    <input class="form-input" id="name" required ng-model="set.name"/>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label" for="subjects">Number of Subjects:</label>
+    <input class="form-input" id="subjects" required ng-model="set.subjects"/>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label" for="images">Number of Images:</label>
+    <input class="form-input" id="images" required ng-model="set.images"/>
+  </div>
+
+
+
+  <input class="btn" type="submit" value="Submit" />
+
+</form>

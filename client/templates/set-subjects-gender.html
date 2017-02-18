@@ -1,0 +1,34 @@
+<div  ng-controller="genderController as genderCtrl">
+<h3>Filter {{genderCtrl.setName}} Subjects</h3>
+
+<a class="btn" href="/#!/sets/{{genderCtrl.setName}}">All</a>
+<a class="btn" href="/#!/sets/{{genderCtrl.setName}}/gender/female">Female</a>
+<a class="btn" href="/#!/sets/{{genderCtrl.setName}}/gender/male">Male</a>
+
+
+<hr/>
+
+<table class="table">
+  <thead>
+    
+    <th>Name</th>
+    <th class="highlightHeader">Gender</th>
+    <th>Age</th>
+    <th>Origin</th>
+    <th>Image</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="subject in genderCtrl.subjects">
+      
+      <td>{{subject.name}}</td>
+      <td class="highlight">{{subject.gender}}</td>
+      <td>{{subject.age}}</td>
+      <td>{{subject.origin}}</td>
+      <th><img src="http://code4rights.com/subjects/lfw_subjects/{{subject.filename}}" width="100px" /></th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
