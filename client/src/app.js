@@ -3,7 +3,6 @@ import 'angular-ui-router'
 
 angular.module('openfaces', ["ui.router"])
 
-
 .config(($stateProvider, $urlRouterProvider) => {
   $urlRouterProvider.otherwise('/sets')
 
@@ -37,6 +36,11 @@ angular.module('openfaces', ["ui.router"])
     .state('sets.age', {
       url: '/:setName/age/:range',
       templateUrl: 'templates/set-subjects-age.html'
+     })
+
+    .state('sets.name', {
+      url: '/:setName/name/:query',
+      templateUrl: 'templates/set-subjects-name.html'
      })
  
  })
@@ -149,7 +153,6 @@ angular.module('openfaces', ["ui.router"])
 	var path ='sets/' + set + '/age/' + query;
 
 	
-
 	 //CLEAN PATH
 	 path = path.replace(/(\r\n|\n|\r)/gm,"");
 
@@ -164,12 +167,31 @@ angular.module('openfaces', ["ui.router"])
 	  });
 
 
-
 })
 
 
+.controller('nameController', function($http){
+
+  //create set specific path
+	var url = window.location.href;
+
+	var parts = url.split('/');
+	var lastindex = parts.length-1;
+	  var set = parts[lastindex -2];
+	  var query = parts[lastindex];
+	  //var origin = url.split('/').pop();
+	  var path ='sets/' + set + '/name/' + query;
+
+	  //CLEAN PATH
+	   path = path.replace(/(\r\n|\n|\r)/gm,"");
+
+	  this.setName = set;
+	  this.query = query;
+
+	  //TO DO: Add Error handling
+	  $http.get(path).then((response) => {
+	  	this.subjects = response.data;
+	  });
 
 
-
-
-
+})
