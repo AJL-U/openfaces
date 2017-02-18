@@ -27,6 +27,9 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		}).state('sets.gender', {
 				url: '/:setName/gender/:gender',
 				templateUrl: 'templates/set-subjects-gender.html'
+		}).state('sets.age', {
+				url: '/:setName/age/:range',
+				templateUrl: 'templates/set-subjects-age.html'
 		});
 })
 
@@ -52,27 +55,6 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		$http.get(path).then(function (response) {
 				_this2.subjects = response.data;
 		});
-
-		/** Test Data
-   	this.subjects = [
-  		{
-  		name: "Joy Buolamwini",
-  		filename: "none",
-  		gender: "female",
-  		age: 27,
-  		origin: "black",
-  		han_race: "nonwhite"
-  		},
-  		{
-  		name: "AJL United",
-  		filename: "none",
-  		gender: "male",
-  		age: 27,
-  		origin: "unlisted",
-  		han_race: "nonwhite"
-  		}
-  	];
-  **/
 }).controller('originController', function ($http) {
 		var _this3 = this;
 
@@ -96,11 +78,7 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		$http.get(path).then(function (response) {
 				_this3.subjects = response.data;
 		});
-		;
-})
-
-//TO DO - connect controller to template 
-.controller('genderController', function ($http) {
+}).controller('genderController', function ($http) {
 		var _this4 = this;
 
 		//create set specific path
@@ -122,6 +100,35 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		//TO DO: Add Error handling
 		$http.get(path).then(function (response) {
 				_this4.subjects = response.data;
+		});
+}).controller('ageController', function ($http) {
+		var _this5 = this;
+
+		//create set specific path
+		var url = window.location.href;
+
+		var parts = url.split('/');
+		var lastindex = parts.length - 1;
+		var set = parts[lastindex - 2];
+
+		var query = parts[lastindex];
+		var range = query.split('-');
+		var min = range[0];
+		var max = range[1];
+
+		//var origin = url.split('/').pop();
+		var path = 'sets/' + set + '/age/' + query;
+
+		//CLEAN PATH
+		path = path.replace(/(\r\n|\n|\r)/gm, "");
+
+		this.setName = set;
+		this.ageMin = min;
+		this.ageMax = max;
+
+		//TO DO: Add Error handling
+		$http.get(path).then(function (response) {
+				_this5.subjects = response.data;
 		});
 });
 

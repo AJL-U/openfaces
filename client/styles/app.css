@@ -1,6 +1,6 @@
 /*************************************************
 *
-*   Olympic Games
+*   Facial Datasets
 *
 *   -- Palette --
 *
@@ -58,7 +58,7 @@ a {
   color: white;
   display: inline-block;
   line-height: 2.5;
-  padding: 0 40px;
+  padding: 0 30px;
   margin:2px;
   transition: 0.2s ease-in-out;
 }

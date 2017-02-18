@@ -9,6 +9,7 @@ mongoUtil.connect();
 
 app.use( express.static(__dirname + "/../client") );
 var sample_limit = 150;
+var age_offset = 0;
 
 
 //creating end point to retrive all sets
@@ -118,6 +119,67 @@ app.get("/sets/gender/:gender", (request, response) => {
       response.sendStatus(400);
     }
     console.log( "Gender: ", subjectGender );
+    console.log( "Subjects docs: ", docs );
+    response.json(docs);
+  });
+
+});
+
+
+
+//get up to sample_limit photos from a set with given age range
+app.get("/sets/:name/age/:min-:max", (request, response) => {
+  let setName = request.params.name;
+  let minAge= request.params.min;
+  let maxAge= request.params.max;
+
+  let subjects = mongoUtil.subjects();
+
+  subjects.aggregate(  [ { $match: { $and: [ { set: setName }, { age: { $gte: (minAge - age_offset ), $lte: (maxAge - age_offset) }} ] } }, { $sample: { size: sample_limit  } } ]  ).toArray((err,docs) => {
+  
+    if(err) {
+      response.sendStatus(400);
+    }
+
+    console.log( "Set ", setName );
+    console.log( "Min: ", minAge );
+    console.log( "Max: ", maxAge );
+    console.log( "Subjects docs: ", docs );
+    response.json(docs);
+  });
+
+});
+
+
+//get up to sample_limit photos from any set with a given origin
+app.get("/sets/age/:min-:max", (request, response) => {
+  let minAge= request.params.min;
+  let maxAge= request.params.max;
+
+  let subjects = mongoUtil.subjects();
+  subjects.aggregate(  [ { $match : { age : { $gte: (minAge-age_offset), $lte: (maxAge-age_offset) } } }, { $sample: { size: sample_limit  } } ]  ).toArray((err,docs) => {
+    if(err) {
+      response.sendStatus(400);
+    }
+    console.log( "Min: ", minAge );
+    console.log( "Max: ", maxAge );
+    console.log( "Subjects docs: ", docs );
+    response.json(docs);
+  });
+
+});
+
+
+//get up to sample_limit photos from any set with a given origin
+app.get("name/:search", (request, response) => {
+  let searchName= request.params.search;
+
+  let subjects = mongoUtil.subjects();
+  subjects.aggregate(  [ { $match : { name : { $regex: searchName,  $options: 'i' }  } }, { $sample: { size: sample_limit  } } ]  ).toArray((err,docs) => {
+    if(err) {
+      response.sendStatus(400);
+    }
+    console.log( "Search Name: ", searchName );
     console.log( "Subjects docs: ", docs );
     response.json(docs);
   });

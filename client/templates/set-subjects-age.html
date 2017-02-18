@@ -1,0 +1,37 @@
+<div  ng-controller="ageController as ageCtrl">
+<h3>Filter {{ageCtrl.setName}} Subjects</h3>
+
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}">All</a>
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}/age/0-17">0-17</a>
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}/age/18-24">18-24</a>
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}/age/25-35">25-35</a>
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}/age/36-50">36-50</a>
+<a class="btn" href="/#!/sets/{{ageCtrl.setName}}/age/51-120">51+</a>
+
+
+<hr/>
+
+<table class="table">
+  <thead>
+    
+    <th>Name</th>
+    <th>Gender</th>
+    <th class="highlightHeader">Age</th>
+    <th>Origin</th>
+    <th>Image</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="subject in ageCtrl.subjects">
+      
+      <td>{{subject.name}}</td>
+      <td>{{subject.gender}}</td>
+      <td class="highlight">{{subject.age}}</td>
+      <td>{{subject.origin}}</td>
+      <th><img src="http://code4rights.com/subjects/lfw_subjects/{{subject.filename}}" width="100px" /></th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
