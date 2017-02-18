@@ -8,7 +8,7 @@ let mongoUtil = require('./mongoUtil');
 mongoUtil.connect();
 
 app.use( express.static(__dirname + "/../client") );
-var sample_limit = 150;
+var sample_limit = 500;
 var age_offset = 0;
 
 
@@ -30,8 +30,8 @@ app.get("/sets", (request,response) => {
 
 
 //get up to sample_limit photos from a set
-app.get("/sets/:name", (request, response) => {
-  let setName = request.params.name;
+app.get("/sets/:setname", (request, response) => {
+  let setName = request.params.setname;
 
   let subjects = mongoUtil.subjects();
  // subjects.find({set: setName}, {limit:sample_limit}).toArray((err,docs) => {
@@ -49,8 +49,8 @@ app.get("/sets/:name", (request, response) => {
 
 
 //get up to sample_limit photos from a set with given origin
-app.get("/sets/:name/origin/:origin", (request, response) => {
-  let setName = request.params.name;
+app.get("/sets/:setname/origin/:origin", (request, response) => {
+  let setName = request.params.setname;
   let subjectOrigin = request.params.origin;
 
   let subjects = mongoUtil.subjects();
@@ -68,6 +68,11 @@ app.get("/sets/:name/origin/:origin", (request, response) => {
   });
 
 });
+
+
+
+
+
 
 
 //get up to sample_limit photos from any set with a given origin
@@ -89,8 +94,8 @@ app.get("/sets/origin/:origin", (request, response) => {
 
 
 //get up to sample_limit photos from a set with given gender
-app.get("/sets/:name/gender/:gender", (request, response) => {
-  let setName = request.params.name;
+app.get("/sets/:setname/gender/:gender", (request, response) => {
+  let setName = request.params.setname;
   let subjectGender= request.params.gender;
 
   let subjects = mongoUtil.subjects();
@@ -128,8 +133,8 @@ app.get("/sets/gender/:gender", (request, response) => {
 
 
 //get up to sample_limit photos from a set with given age range
-app.get("/sets/:name/age/:min-:max", (request, response) => {
-  let setName = request.params.name;
+app.get("/sets/:setname/age/:min-:max", (request, response) => {
+  let setName = request.params.setname;
   let minAge= request.params.min;
   let maxAge= request.params.max;
 
@@ -169,9 +174,8 @@ app.get("/sets/age/:min-:max", (request, response) => {
 
 });
 
-
-//get up to sample_limit photos from any set with a given origin
-app.get("name/:search", (request, response) => {
+//get up to sample_limit photos from any set with a given age
+app.get("/name/:search", (request, response) => {
   let searchName= request.params.search;
 
   let subjects = mongoUtil.subjects();
@@ -179,6 +183,28 @@ app.get("name/:search", (request, response) => {
     if(err) {
       response.sendStatus(400);
     }
+    console.log( "Search Name: ", searchName );
+    console.log( "Subjects docs: ", docs );
+    response.json(docs);
+  });
+
+});
+
+
+//get up to sample_limit photos from a set with given name search
+app.get("/sets/:setname/name/:search", (request, response) => {
+  let setName = request.params.setname;
+  let searchName= request.params.search;
+ 
+  let subjects = mongoUtil.subjects();
+
+  subjects.aggregate(  [ { $match: { $and: [ { set: setName }, { name:  { $regex: searchName,  $options: 'i' } } ] } }, { $sample: { size: sample_limit  } } ]  ).toArray((err,docs) => {
+  
+    if(err) {
+      response.sendStatus(400);
+    }
+
+    console.log( "Set ", setName );
     console.log( "Search Name: ", searchName );
     console.log( "Subjects docs: ", docs );
     response.json(docs);

@@ -1,0 +1,40 @@
+<div  ng-controller="nameController as nameCtrl">
+<h3>Filter {{nameCtrl.setName}} Subjects | Search: {{nameCtrl.query}}</h3>
+
+
+<form  id="nameSearch" action="javascript:searchName(set.value, search.value)">
+<input type="text" id="search" name="search">
+<input type="hidden" id="set" name="set" value="{{nameCtrl.setName}}">
+<input type="submit" value="Search">
+</form>
+
+<hr/>
+<a class="btn" href="/#!/sets/{{nameCtrl.setName}}">All</a>
+
+<hr/>
+
+<table class="table">
+  <thead>
+    
+    <th class="highlightHeader">Name</th>
+    <th>Gender</th>
+    <th>Age</th>
+    <th>Origin</th>
+    <th>Image</th>
+  </thead>
+  <tbody>
+    <tr ng-repeat="subject in nameCtrl.subjects">
+      
+      <td class="highlight">{{subject.name}}</td>
+      <td>{{subject.gender}}</td>
+      <td>{{subject.age}}</td>
+      <td>{{subject.origin}}</td>
+      <th><img src="http://code4rights.com/subjects/lfw_subjects/{{subject.filename}}" width="100px" /></th>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+

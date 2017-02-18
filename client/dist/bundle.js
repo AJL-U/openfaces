@@ -30,6 +30,9 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		}).state('sets.age', {
 				url: '/:setName/age/:range',
 				templateUrl: 'templates/set-subjects-age.html'
+		}).state('sets.name', {
+				url: '/:setName/name/:query',
+				templateUrl: 'templates/set-subjects-name.html'
 		});
 })
 
@@ -129,6 +132,29 @@ _angular2.default.module('openfaces', ["ui.router"]).config(function ($stateProv
 		//TO DO: Add Error handling
 		$http.get(path).then(function (response) {
 				_this5.subjects = response.data;
+		});
+}).controller('nameController', function ($http) {
+		var _this6 = this;
+
+		//create set specific path
+		var url = window.location.href;
+
+		var parts = url.split('/');
+		var lastindex = parts.length - 1;
+		var set = parts[lastindex - 2];
+		var query = parts[lastindex];
+		//var origin = url.split('/').pop();
+		var path = 'sets/' + set + '/name/' + query;
+
+		//CLEAN PATH
+		path = path.replace(/(\r\n|\n|\r)/gm, "");
+
+		this.setName = set;
+		this.query = query;
+
+		//TO DO: Add Error handling
+		$http.get(path).then(function (response) {
+				_this6.subjects = response.data;
 		});
 });
 
